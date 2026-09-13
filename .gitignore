@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.cache/
+.local-archive/
+output/
+*.tsbuildinfo
+*.log
+.env*
+!.env.example
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+__pycache__/

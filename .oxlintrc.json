@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "import", "jsx-a11y"],
+  "categories": { "correctness": "error" },
+  "env": { "builtin": true, "browser": true, "node": true },
+  "options": { "typeAware": true, "typeCheck": true },
+  "ignorePatterns": ["node_modules/**", "dist/**", ".cache/**", ".local-archive/**"],
+  "rules": { "no-var": "error", "prefer-const": "error", "react/react-compiler": "error", "typescript/no-explicit-any": "error" }
+}
