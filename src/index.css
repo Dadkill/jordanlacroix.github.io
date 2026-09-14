@@ -6,7 +6,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-body);
-  --font-mono: var(--font-code);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-border: var(--border);
@@ -114,8 +113,8 @@ h3 {
 }
 .header-role {
   font:
-    12px/1.5 var(--font-code),
-    monospace;
+    12px/1.5 var(--font-body),
+    sans-serif;
   color: #a4b0c5;
   margin-left: 12px;
 }
@@ -167,8 +166,8 @@ h3 {
   justify-content: space-between;
   align-items: center;
   font:
-    12px/1.6 var(--font-code),
-    monospace;
+    14px/1.6 var(--font-body),
+    sans-serif;
   letter-spacing: 0.025em;
   color: #b1b9ca;
 }
@@ -176,13 +175,6 @@ h3 {
   display: flex;
   gap: 12px;
   align-items: center;
-}
-.signal {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px #6f9fff15;
 }
 .hero-stage {
   display: grid;
@@ -248,8 +240,8 @@ h3 {
   align-items: center;
   gap: 14px;
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   letter-spacing: 0.02em;
 }
 .circle-arrow {
@@ -272,8 +264,8 @@ h3 {
 }
 .cv-link {
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
 }
 .sculpture-stage {
   position: relative;
@@ -295,21 +287,6 @@ h3 {
     transparent
   );
 }
-.sculpture-cross {
-  position: absolute;
-  color: #60708b;
-  font:
-    19px var(--font-code),
-    monospace;
-}
-.top-cross {
-  top: 42px;
-  right: 5px;
-}
-.bottom-cross {
-  bottom: 53px;
-  left: 35px;
-}
 .motion-button {
   position: absolute;
   bottom: 16px;
@@ -319,8 +296,8 @@ h3 {
   color: #a8b7cd !important;
   border-radius: 0 !important;
   font:
-    12px var(--font-code),
-    monospace !important;
+    12px var(--font-body),
+    sans-serif !important;
   height: 32px !important;
   padding: 0 8px !important;
   gap: 8px !important;
@@ -373,17 +350,13 @@ h3 {
 .discipline-tab[data-active] {
   color: var(--accent) !important;
 }
-.discipline-tab > svg {
-  width: 18px;
-  height: 18px;
-  opacity: 0;
-  transform: translate(-6px, 6px);
-  transition: all 0.35s;
+.discipline-tab > span {
+  border-bottom: 2px solid transparent;
+  padding-bottom: 3px;
+  transition: border-color 0.3s;
 }
-.discipline-tab:hover > svg,
-.discipline-tab[data-active] > svg {
-  opacity: 1;
-  transform: translate(0);
+.discipline-tab[data-active] > span {
+  border-bottom-color: currentColor;
 }
 .discipline-description {
   min-height: 68px;
@@ -412,19 +385,13 @@ h3 {
 }
 .section-label {
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   letter-spacing: 0.06em;
   display: flex;
   gap: 10px;
   align-items: center;
   margin-top: 9px;
-}
-.section-label:before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: var(--accent);
 }
 h2 {
   font-family: var(--heading);
@@ -437,7 +404,7 @@ h2 {
 }
 .expertise-lines article {
   display: grid;
-  grid-template-columns: 75px 1fr 1fr 30px;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 20px;
   padding: 36px 0;
@@ -445,17 +412,6 @@ h2 {
   transition:
     padding 0.35s,
     background 0.35s;
-}
-.expertise-lines article:hover {
-  background: #1e293d;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-.expertise-num {
-  font:
-    12px var(--font-code),
-    monospace;
-  color: var(--accent);
 }
 .expertise-lines h3 {
   font-family: var(--heading);
@@ -467,9 +423,6 @@ h2 {
   line-height: 1.8;
   color: #b1bbce;
   max-width: 430px;
-}
-.expertise-lines article > svg {
-  color: var(--accent);
 }
 .skip-link {
   position: fixed;
@@ -524,7 +477,7 @@ h2 {
     padding-inline: 14px !important;
   }
   .expertise-lines article {
-    grid-template-columns: 45px 1fr 1fr 24px;
+    grid-template-columns: 1fr 1fr;
   }
   .expertise-lines h3 {
     font-size: 24px;
@@ -561,11 +514,12 @@ h2 {
     min-height: 0;
   }
   .identity {
+    container-type: inline-size;
     padding-top: 48px;
     padding-bottom: 0;
   }
   .hero h1 {
-    font-size: clamp(57px, 14.7vw, 110px);
+    font-size: 13.5cqw;
   }
   .name-last {
     margin-top: 13px;
@@ -591,13 +545,6 @@ h2 {
     margin: 0;
     max-width: 440px;
     margin-inline: auto;
-  }
-  .top-cross {
-    top: 25px;
-  }
-  .bottom-cross {
-    bottom: 40px;
-    left: 10px;
   }
   .discipline-tabs {
     grid-template-columns: 1fr;
@@ -626,7 +573,7 @@ h2 {
     font-size: clamp(34px, 8.5vw, 54px);
   }
   .expertise-lines article {
-    grid-template-columns: 27px 1fr 24px;
+    grid-template-columns: 1fr;
     gap: 16px;
     padding: 28px 0;
   }
@@ -634,23 +581,15 @@ h2 {
     font-size: 23px;
   }
   .expertise-lines p {
-    grid-column: 2/3;
+    grid-column: 1;
     font-size: 16px;
-  }
-  .expertise-lines article > svg {
-    grid-column: 3;
-    grid-row: 1;
-  }
-  .expertise-lines article:hover {
-    padding-left: 0;
-    padding-right: 0;
   }
 }
 .skill-detail {
   display: block;
   font:
-    12px/1.7 var(--font-code),
-    monospace;
+    12px/1.7 var(--font-body),
+    sans-serif;
   color: #a2b5d5;
   margin-top: 13px;
 }
@@ -732,8 +671,8 @@ h2 {
   min-height: 67px;
   margin-bottom: 37px;
   font:
-    12px/1.5 var(--font-code),
-    monospace;
+    12px/1.5 var(--font-body),
+    sans-serif;
 }
 .ecg-logo {
   display: grid;
@@ -756,12 +695,6 @@ h2 {
   align-items: center;
   color: #c3d0e6;
 }
-.current-role > span {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-}
 .ecg-body {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -783,7 +716,7 @@ h2 {
 }
 .role-progression {
   display: grid;
-  grid-template-columns: 1fr 30px;
+  grid-template-columns: 1fr;
   gap: 28px;
   padding: 8px 0 8px 40px;
   border-left: 1px solid #ffffff26;
@@ -791,8 +724,8 @@ h2 {
 .date-label {
   display: block;
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   line-height: 1.6;
   color: #aabbd9;
   margin-bottom: 12px;
@@ -808,10 +741,6 @@ h2 {
 .role-progression > div:last-child {
   grid-column: 1/-1;
 }
-.progression-arrow {
-  align-self: center;
-  color: var(--accent);
-}
 .company-bottom {
   display: flex;
   align-items: center;
@@ -821,8 +750,8 @@ h2 {
   padding-top: 23px;
   margin-top: 36px;
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   line-height: 1.6;
   color: #b1bfd7;
 }
@@ -843,8 +772,8 @@ h2 {
   white-space: nowrap;
   color: #a6aebb;
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
 }
 .airbus-logo {
   object-fit: contain;
@@ -876,8 +805,8 @@ h2 {
 .past-roles span {
   display: block;
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   color: #9ca7bd;
   margin-top: 7px;
   line-height: 1.6;
@@ -974,8 +903,8 @@ h2 {
 }
 .portrait-card figcaption {
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   display: flex;
   justify-content: space-between;
   gap: 16px;
@@ -1003,7 +932,7 @@ h2 {
 }
 .education-row {
   display: grid;
-  grid-template-columns: 110px 1fr 20px;
+  grid-template-columns: 110px 1fr;
   gap: 24px;
   border-top: 1px solid #39445a;
   padding: 23px 0;
@@ -1014,8 +943,8 @@ h2 {
 }
 .education-date {
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   color: var(--accent);
   line-height: 1.7;
 }
@@ -1030,14 +959,10 @@ h2 {
   line-height: 1.7;
   color: #a0aec5;
 }
-.education-row > svg {
-  color: #869bbb;
-  stroke-width: 1;
-}
 .certifications {
   font:
-    12px/1.9 var(--font-code),
-    monospace;
+    12px/1.9 var(--font-body),
+    sans-serif;
   color: #9babc5;
   padding-top: 18px;
   border-top: 1px solid #39445a;
@@ -1050,16 +975,9 @@ h2 {
   padding: 27px 0;
   border-block: 1px solid #42506a;
 }
-.cv-banner-label {
-  font:
-    12px/1.7 var(--font-code),
-    monospace;
-  width: 22%;
-  color: #adbbd4;
-}
 .cv-banner-title {
   font-family: var(--heading);
-  font-size: clamp(40px, 5vw, 72px);
+  font-size: clamp(28px, 3.8vw, 54px);
   letter-spacing: -0.045em;
   line-height: 1.2;
 }
@@ -1069,8 +987,8 @@ h2 {
   margin-left: auto;
   gap: 24px;
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   color: #a9b6cc;
 }
 .cv-download {
@@ -1105,8 +1023,8 @@ h2 {
 }
 .contact-top h2 {
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   letter-spacing: 0.04em;
 }
 .contact-top p {
@@ -1159,8 +1077,8 @@ h2 {
   border-top: 1px solid #14141450;
   padding-top: 27px;
   font:
-    12px/1.7 var(--font-code),
-    monospace;
+    12px/1.7 var(--font-body),
+    sans-serif;
 }
 .footer {
   display: flex;
@@ -1168,8 +1086,8 @@ h2 {
   gap: 35px;
   min-height: 120px;
   font:
-    12px var(--font-code),
-    monospace;
+    12px var(--font-body),
+    sans-serif;
   color: #9baac2;
 }
 .footer .brand {
@@ -1254,14 +1172,11 @@ h2 {
     grid-template-columns: 0.85fr 1fr;
   }
   .education-row {
-    grid-template-columns: 90px 1fr 18px;
+    grid-template-columns: 90px 1fr;
     gap: 15px;
   }
   .career-section-head h2 {
     font-size: 8vw;
-  }
-  .cv-banner-label {
-    width: 19%;
   }
   .email-domain {
     font-size: 7.3vw;
@@ -1376,7 +1291,7 @@ h2 {
     font-size: 29px;
   }
   .education-row {
-    grid-template-columns: 85px 1fr 18px;
+    grid-template-columns: 85px 1fr;
     gap: 12px;
   }
   .cv-banner {
@@ -1385,11 +1300,8 @@ h2 {
     gap: 18px;
     padding-block: 22px;
   }
-  .cv-banner-label {
-    width: 100%;
-  }
   .cv-banner-title {
-    font-size: 46px;
+    font-size: clamp(24px, 6vw, 36px);
   }
   .cv-banner-end {
     gap: 12px;
@@ -1489,10 +1401,10 @@ h2 {
 }
 .discipline-panel-title {
   font:
-    12px/1.6 var(--font-code),
-    monospace !important;
-  letter-spacing: 0.09em !important;
-  text-transform: uppercase;
+    12px/1.6 var(--font-body),
+    sans-serif !important;
+  letter-spacing: 0.01em !important;
+  font-weight: 600;
   color: #a6b4cf;
   margin: 0 0 24px !important;
   animation: panel-arrive 0.95s var(--ease-flow) 0.12s both;

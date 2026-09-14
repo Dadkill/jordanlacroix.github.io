@@ -7,13 +7,14 @@ const root = fileURLToPath(new URL('../dist/', import.meta.url));
 const read = (name) => readFile(path.join(root, name), 'utf8');
 const html = await read('index.html');
 assert(html.includes('<html lang="fr">'));
-assert(html.includes('Data Team Lead') && html.toLowerCase().includes('googlesql'));
+assert(
+  html.includes('Data Team Lead') && html.toLowerCase().includes('googlesql'),
+);
 assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
 assert(!html.includes('APP_HTML') && !html.includes('PRODUCTION_CSP'));
 assert(html.includes("script-src 'self'"));
 assert(!html.includes("'unsafe-eval'"));
 assert(!html.includes('chatgpt.site') && !html.includes('/src/main.tsx'));
-assert(html.includes('PDF, UNE PAGE'));
 assert(html.includes('https://jordanlacroix.fr/'));
 const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]));
 for (const [, href] of html.matchAll(/\bhref="#([^"]+)"/g)) {

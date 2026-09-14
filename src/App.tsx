@@ -173,7 +173,7 @@ export default function Home() {
             <span className="brand-dot" />
           </a>
           <span className="header-role">
-            DATA TEAM LEAD
+            Data Team Lead
             <br />
             RM & BI / DPO
           </span>
@@ -192,11 +192,8 @@ export default function Home() {
         <main id="contenu">
           <section className="hero wrap" aria-labelledby="hero-title">
             <div className="hero-topline">
-              <p>
-                <span className="signal" /> DATA, BUSINESS INTELLIGENCE &
-                PRIVACY
-              </p>
-              <span>MARSEILLE, FRANCE</span>
+              <p>Data, Business Intelligence & protection des données</p>
+              <span>Marseille, France</span>
             </div>
             <div className="hero-stage">
               <div className="identity">
@@ -219,7 +216,7 @@ export default function Home() {
                     <span className="circle-arrow">
                       <ArrowDown size={23} />
                     </span>
-                    <span>MON PARCOURS</span>
+                    <span>Mon parcours</span>
                   </a>
                   <a
                     className="cv-link hover-link"
@@ -235,15 +232,6 @@ export default function Home() {
                   mode={discipline}
                   paused={paused || reducedMotion}
                 />
-                <span className="sculpture-cross top-cross" aria-hidden="true">
-                  +
-                </span>
-                <span
-                  className="sculpture-cross bottom-cross"
-                  aria-hidden="true"
-                >
-                  +
-                </span>
                 <Button
                   className="motion-button"
                   variant="ghost"
@@ -290,7 +278,6 @@ export default function Home() {
                     className="discipline-tab"
                   >
                     <span>{d.short}</span>
-                    <ArrowUpRight size={18} />
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -321,7 +308,7 @@ export default function Home() {
             aria-labelledby="expertise-title"
           >
             <div className="section-heading reveal">
-              <span className="section-label">MON TRAVAIL</span>
+              <span className="section-label">Mon travail</span>
               <h2 id="expertise-title">
                 Mon périmètre
                 <br />
@@ -330,24 +317,21 @@ export default function Home() {
             </div>
             <div className="expertise-lines">
               <article className="reveal">
-                <span className="expertise-num">01</span>
                 <div>
                   <h3>Leadership data</h3>
-                  <span className="skill-detail">REVENUE MANAGEMENT / BI</span>
+                  <span className="skill-detail">Revenue Management / BI</span>
                 </div>
                 <p>
                   Je pilote le périmètre data RM & BI. Mon rôle est de faire
                   avancer les sujets avec les équipes et de garder les besoins
                   métier au centre du travail.
                 </p>
-                <ArrowUpRight size={24} />
               </article>
               <article className="reveal">
-                <span className="expertise-num">02</span>
                 <div>
                   <h3>Analyse des usages BI</h3>
                   <span className="skill-detail">
-                    TABLEAU / GOOGLESQL / BIGQUERY
+                    Tableau / GoogleSQL / BigQuery
                   </span>
                 </div>
                 <p>
@@ -355,13 +339,11 @@ export default function Home() {
                   pour identifier les besoins, rationaliser les reportings et
                   faire évoluer les analyses utiles à leur activité.
                 </p>
-                <ArrowUpRight size={24} />
               </article>
               <article className="reveal">
-                <span className="expertise-num">03</span>
                 <div>
                   <h3>Protection des données</h3>
-                  <span className="skill-detail">DPO GROUPE / RGPD</span>
+                  <span className="skill-detail">DPO Groupe / RGPD</span>
                 </div>
                 <p>
                   J’accompagne les différents départements dans leur conformité
@@ -369,7 +351,6 @@ export default function Home() {
                   traitements, structuration du registre et veille
                   réglementaire.
                 </p>
-                <ArrowUpRight size={24} />
               </article>
             </div>
           </section>
@@ -404,10 +385,8 @@ export default function Home() {
                         height="54"
                       />
                     </div>
-                    <span>EUROPEAN CAMPING GROUP</span>
-                    <span className="current-role">
-                      <span /> AUJOURD’HUI
-                    </span>
+                    <span>European Camping Group</span>
+                    <span className="current-role">Aujourd’hui</span>
                   </div>
                   <div className="ecg-body">
                     <div>
@@ -425,14 +404,13 @@ export default function Home() {
                     <div className="role-progression">
                       <div>
                         <span className="date-label">
-                          DEPUIS SEPTEMBRE 2025
+                          Depuis septembre 2025
                         </span>
                         <strong>Data Team Lead RM & BI / DPO</strong>
                       </div>
-                      <ArrowUpRight className="progression-arrow" size={32} />
                       <div>
                         <span className="date-label">
-                          JANVIER 2023 À AOÛT 2025
+                          Janvier 2023 à août 2025
                         </span>
                         <strong>Data Manager / DPO</strong>
                       </div>
@@ -443,7 +421,7 @@ export default function Home() {
                     <span>Business Intelligence</span>
                     <span>Gouvernance</span>
                     <span className="company-date">
-                      2023 <ArrowRight size={16} /> EN POSTE
+                      2023 <ArrowRight size={16} /> En poste
                     </span>
                   </div>
                 </article>
@@ -485,7 +463,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="company-bottom">
-                    <span>AIRBUS HELICOPTERS</span>
+                    <span>Airbus Helicopters</span>
                     <span>Marignane</span>
                   </div>
                 </article>
@@ -521,7 +499,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="company-bottom">
-                    <span>HIGHCO / HIGHCONNEXION</span>
+                    <span>HighCo / HighConnexion</span>
                     <span>Aix-en-Provence</span>
                   </div>
                 </article>
@@ -534,7 +512,7 @@ export default function Home() {
             aria-labelledby="about-title"
           >
             <div className="about-heading reveal">
-              <span className="section-label">LE PROFIL</span>
+              <span className="section-label">Le profil</span>
               <h2 id="about-title">
                 À PROPOS<span className="accent">.</span>
               </h2>
@@ -552,9 +530,7 @@ export default function Home() {
                 </div>
                 <figcaption>
                   <span>JORDAN LACROIX</span>
-                  <span>
-                    MARSEILLE <ArrowUpRight size={14} />
-                  </span>
+                  <span>Marseille</span>
                 </figcaption>
               </figure>
               <div className="about-text reveal">
@@ -604,12 +580,8 @@ export default function Home() {
               href="/CV-Jordan-Lacroix.pdf"
               download
             >
-              <span className="cv-banner-label">LE PARCOURS COMPLET</span>
-              <span className="cv-banner-title">
-                Mon CV<span className="accent">.</span>
-              </span>
+              <span className="cv-banner-title">Télécharger mon CV</span>
               <span className="cv-banner-end">
-                PDF, UNE PAGE{' '}
                 <span className="cv-download">
                   <Download size={26} />
                 </span>
@@ -642,7 +614,7 @@ export default function Home() {
                 <span className="sr-only">Écrire à Jordan Lacroix</span>
               </a>
               <div className="contact-bottom reveal">
-                <span>MARSEILLE & AIX-EN-PROVENCE</span>
+                <span>Marseille & Aix-en-Provence</span>
                 <a
                   className="hover-link"
                   href="https://www.linkedin.com/in/jordan-lacroix/"
