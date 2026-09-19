@@ -441,7 +441,7 @@ export default function Home() {
                     <span className="company-years">2019 / 2021</span>
                   </div>
                   <h3>
-                    La gouvernance,
+                    Gouvernance
                     <br />à l’échelle industrielle.
                   </h3>
                   <div className="past-roles">

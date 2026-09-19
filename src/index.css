@@ -659,10 +659,24 @@ h2 {
   opacity: 1;
 }
 .ecg-card {
+  --ecg-ink: #f3f6ff;
+  --ecg-rule: #ffffff40;
   grid-column: 1/-1;
-  background: #1f2d46;
-  color: var(--paper);
-  border-color: #1f2d46;
+  background: #2e498e;
+  color: var(--ecg-ink);
+  border-color: #2e498e;
+}
+.ecg-card .current-role,
+.ecg-card .company-context,
+.ecg-card .date-label,
+.ecg-card .company-bottom,
+.ecg-card .company-date,
+.ecg-card .role-progression > div:first-child .date-label {
+  color: var(--ecg-ink);
+}
+.ecg-card .role-progression,
+.ecg-card .company-bottom {
+  border-color: var(--ecg-rule);
 }
 .company-top {
   display: flex;
