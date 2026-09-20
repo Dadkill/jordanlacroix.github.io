@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { escapeHtml, productionCsp } from './html-template.mjs';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,8 +13,22 @@ assert(
 );
 assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
 assert(!html.includes('APP_HTML') && !html.includes('PRODUCTION_CSP'));
-assert(html.includes("script-src 'self'"));
-assert(!html.includes("'unsafe-eval'"));
+function checkPolicy(document, name) {
+  assert(
+    document.includes('content="' + escapeHtml(productionCsp) + '"'),
+    name + ': production CSP missing',
+  );
+  assert(
+    !/unsafe-(?:inline|eval)/.test(document),
+    name + ': unsafe CSP directive',
+  );
+  assert(
+    !/\s(?:style|on[a-z]+)\s*=/i.test(document),
+    name + ': inline styles or event handlers',
+  );
+  assert(!/<style\b/i.test(document), name + ': inline style element');
+}
+checkPolicy(html, 'index.html');
 assert(!html.includes('chatgpt.site') && !html.includes('/src/main.tsx'));
 assert(html.includes('https://jordanlacroix.fr/'));
 const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]));
@@ -33,7 +48,13 @@ async function checkAsset(url) {
     root,
     '.' + (url.startsWith('/') ? url : '/' + url),
   );
-  assert(asset.startsWith(root), 'Asset escapes output');
+  const relative = path.relative(root, asset);
+  assert(
+    relative !== '..' &&
+      !relative.startsWith('..' + path.sep) &&
+      !path.isAbsolute(relative),
+    'Asset escapes output',
+  );
   assert((await stat(asset)).isFile(), `Missing asset: ${url}`);
 }
 for (const [, url] of html.matchAll(/\b(?:src|href)="([^"]+)"/g))
@@ -74,7 +95,7 @@ for (const name of ['mentions-legales.html', 'confidentialite.html']) {
     name + ': one main title',
   );
   assert(!/<script\b/.test(page), name + ': static page, no hydration');
-  assert(page.includes("script-src 'self'"), name + ': CSP missing');
+  checkPolicy(page, name);
   assert(
     page.includes('href="https://jordanlacroix.fr/' + name + '"'),
     name + ': canonical URL missing',

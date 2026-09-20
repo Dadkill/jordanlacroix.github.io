@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "oxlint src scripts vite.config.ts",
     "format": "oxfmt src scripts vite.config.ts",
-    "test": "node scripts/verify-motion.mjs",
+    "test": "node --test scripts/html-template.test.mjs && node scripts/verify-motion.mjs",
     "check:build": "node scripts/check-build.mjs",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm check:build"
   },
