@@ -64,3 +64,41 @@ assert.equal(
 console.log(
   'PASS: complete static HTML, local assets, anchors, CSP, no server/secret files, custom domain and one-page CV.',
 );
+
+// Legal documents must be independently readable without application JavaScript.
+for (const name of ['mentions-legales.html', 'confidentialite.html']) {
+  const page = await read(name);
+  assert.equal(
+    (page.match(/<h1\b/g) ?? []).length,
+    1,
+    name + ': one main title',
+  );
+  assert(!/<script\b/.test(page), name + ': static page, no hydration');
+  assert(page.includes("script-src 'self'"), name + ': CSP missing');
+  assert(
+    page.includes('href="https://jordanlacroix.fr/' + name + '"'),
+    name + ': canonical URL missing',
+  );
+  assert(!page.includes('APP_HTML') && !page.includes('PRODUCTION_CSP'));
+  const pageIds = new Set(
+    [...page.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]),
+  );
+  for (const [, url] of page.matchAll(/\b(?:src|href)="([^"]+)"/g)) {
+    if (url.startsWith('#'))
+      assert(pageIds.has(url.slice(1)), name + ': missing anchor ' + url);
+    else if (url !== '/') await checkAsset(url);
+  }
+}
+assert(
+  html.includes(
+    'property="og:image" content="https://jordanlacroix.fr/social-card.png"',
+  ),
+);
+assert(html.includes('name="twitter:card" content="summary_large_image"'));
+const shareImage = await readFile(path.join(root, 'social-card.png'));
+assert.equal(shareImage.subarray(1, 4).toString(), 'PNG');
+assert.equal(shareImage.readUInt32BE(16), 1200);
+assert.equal(shareImage.readUInt32BE(20), 630);
+console.log(
+  'PASS: standalone legal pages, canonical URLs and 1200 × 630 social card.',
+);

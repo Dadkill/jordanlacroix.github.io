@@ -1,37 +1,43 @@
-# GitHub Pages et jordanlacroix.fr
+# Hébergement et domaine
 
-## Dépôt
+Le site public est **https://jordanlacroix.fr/**. Le dépôt est [Dadkill/jordanlacroix.github.io](https://github.com/Dadkill/jordanlacroix.github.io).
 
-L’adresse demandée `jordanlacroix.github.io` exige le compte GitHub `jordanlacroix` et un dépôt de ce même nom. Le projet est prêt pour cette racine et pour le domaine personnalisé, avec `base: '/'`. Si le compte est différent, l’adresse par défaut sera différente ; le domaine personnalisé reste utilisable. [Documentation Vite](https://vite.dev/guide/static-deploy)
+## Publication
 
-Le workflow `.github/workflows/pages.yml` utilise le jeton temporaire fourni par GitHub ; aucune clé personnelle n’est à placer dans les sources. Il teste les pull requests mais ne les déploie pas. La publication est réservée à `main`.
+Le workflow `.github/workflows/pages.yml` vérifie les pull requests et publie les changements de `main` avec GitHub Actions. Seul le contenu compilé de `dist/` est envoyé à GitHub Pages. Le point d’entrée servi est `dist/index.html`.
 
-Dans GitHub : **Settings → Pages → Source : GitHub Actions**. Après le premier envoi, surveiller l’onglet Actions. Le workflow publie `dist`, et non les sources. Le fichier d’entrée final est `dist/index.html`. [Création d’un site Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
+La configuration Pages du dépôt utilise **GitHub Actions**, le domaine personnalisé **jordanlacroix.fr** et **Enforce HTTPS**. Le workflow utilise le jeton temporaire GitHub ; aucune clé personnelle ne doit être ajoutée aux sources.
 
-## Domaine
+Le nom du dépôt n’impose pas un changement de compte : il s’agit d’un site de projet du compte **Dadkill**. Son adresse GitHub par défaut est `https://dadkill.github.io/jordanlacroix.github.io/`. Le site est compilé pour la racine du domaine personnalisé (`base: '/'`), qui reste son adresse de référence.
 
-1. Vérifier la propriété du domaine dans les réglages Pages du compte GitHub, avec l’enregistrement TXT fourni par GitHub.
-2. Dans **Settings → Pages → Custom domain**, saisir `jordanlacroix.fr` et enregistrer **avant** de faire pointer le DNS.
-3. Chez le fournisseur DNS, utiliser un **ALIAS/ANAME** pour `@` vers `jordanlacroix.github.io`, si disponible. Sinon utiliser les quatre enregistrements **A** ci-dessous.
+## Référence DNS pour le site web
 
-| Type | Nom | Valeur |
+| Type | Sous-domaine OVH | Cible |
 | --- | --- | --- |
-| A | @ | 185.199.108.153 |
-| A | @ | 185.199.109.153 |
-| A | @ | 185.199.110.153 |
-| A | @ | 185.199.111.153 |
-| CNAME | www | jordanlacroix.github.io |
+| A | vide (racine) | 185.199.108.153 |
+| A | vide (racine) | 185.199.109.153 |
+| A | vide (racine) | 185.199.110.153 |
+| A | vide (racine) | 185.199.111.153 |
+| CNAME | www | dadkill.github.io. |
 
-Remplacer seulement les anciens enregistrements web qui entrent en conflit. Conserver les enregistrements de messagerie **MX, SPF, DKIM et DMARC**, nécessaires à `contact@jordanlacroix.fr`. Un simple transfert d’URL chez le registrar ne remplace pas cette configuration.
+Le point final du CNAME désigne un nom DNS absolu. La cible est celle du **compte GitHub**, sans nom de dépôt ni préfixe HTTPS.
 
-Après validation DNS et émission du certificat, activer **Enforce HTTPS**. GitHub peut prendre jusqu’à 24 heures pour constater les changements DNS. Le fichier `public/CNAME` est fourni pour les hébergements par branche ; avec GitHub Actions, le domaine doit être déclaré dans les réglages Pages et ce fichier ne suffit pas. [Configuration officielle du domaine](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
+Cette table sert de référence pour la configuration web ; elle ne remplace pas une sauvegarde de la zone DNS complète.
 
-Ne pas créer d’enregistrement DNS générique `*`. La vérification de propriété protège contre l’utilisation du domaine par un autre compte. [Vérification du domaine](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages)
+**Préserver la messagerie OVH MX Plan** : conserver les MX, SPF, DKIM, DMARC, les SRV et les entrées mail, smtp, pop3, imap, autoconfig et autodiscover. Ne pas réinitialiser la zone DNS ni changer les serveurs DNS pour publier une mise à jour du site.
 
-## Alternative : fichiers déjà compilés
+## Domaine et HTTPS
 
-Le contenu de `dist/` est autonome. Il peut être placé à la racine d’une branche destinée à Pages, avec `index.html`, les ressources, `.nojekyll` et `CNAME`. Dans ce cas, sélectionner la publication depuis cette branche. Cette méthode nécessite de recopier la compilation à chaque modification ; le workflow automatique est préférable pour maintenir le site.
+Le domaine est déclaré dans les réglages Pages du dépôt. Avec GitHub Actions, `public/CNAME` ne remplace pas ce réglage. Le certificat HTTPS est géré par GitHub.
 
-## Vérification après mise en ligne
+La vérification de propriété du domaine s’effectue dans les réglages Pages du compte, avec le TXT fourni par GitHub. Conserver ce TXT une fois la vérification effectuée. Éviter les entrées génériques `*`.
 
-Ouvrir le domaine en HTTPS, tester Data / BI / DPO, le lien de contact et le téléchargement du CV. Vérifier également `www.jordanlacroix.fr`. En cas de 404 sur les ressources, vérifier que Pages publie bien le contenu compilé de `dist/`.
+## Contrôles après publication
+
+Vérifier l’accueil en HTTPS, la redirection de www, les liens du menu, les pages légales, le téléchargement du CV et les métadonnées de partage. Les messageries et réseaux sociaux peuvent conserver un aperçu en cache après une publication.
+
+## Références
+
+- [Configuration des domaines personnalisés GitHub Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
+- [Vérification de propriété du domaine](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages)
+- [Déploiement statique avec Vite](https://vite.dev/guide/static-deploy)

@@ -16,6 +16,7 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import DataSculpture, { type Discipline } from './data-sculpture';
+import SiteHeader from './components/SiteHeader';
 
 const disciplines = [
   {
@@ -163,33 +164,8 @@ export default function Home() {
         Aller au contenu
       </a>
       <div className="portfolio" data-paused={paused || reducedMotion}>
-        <header className="site-header wrap">
-          <a
-            className="brand"
-            href="#contenu"
-            aria-label="Jordan Lacroix, accueil"
-          >
-            JL
-            <span className="brand-dot" />
-          </a>
-          <span className="header-role">
-            Data Team Lead
-            <br />
-            RM & BI / DPO
-          </span>
-          <nav aria-label="Navigation principale">
-            <a href="#expertises">Expertises</a>
-            <a href="#parcours">Parcours</a>
-            <a href="#apropos">Profil</a>
-          </nav>
-          <a
-            className="header-mail hover-link"
-            href="mailto:contact@jordanlacroix.fr"
-          >
-            Me contacter <ArrowUpRight size={16} />
-          </a>
-        </header>
-        <main id="contenu">
+        <SiteHeader />
+        <main id="contenu" tabIndex={-1}>
           <section className="hero wrap" aria-labelledby="hero-title">
             <div className="hero-topline">
               <p>Data, Business Intelligence & protection des données</p>
@@ -223,7 +199,7 @@ export default function Home() {
                     href="/CV-Jordan-Lacroix.pdf"
                     download
                   >
-                    CV <Download size={16} />
+                    CV <Download size={16} aria-hidden="true" />
                   </a>
                 </div>
               </div>
@@ -305,6 +281,7 @@ export default function Home() {
           <section
             className="expertise-section wrap"
             id="expertises"
+            tabIndex={-1}
             aria-labelledby="expertise-title"
           >
             <div className="section-heading reveal">
@@ -356,6 +333,7 @@ export default function Home() {
           </section>
           <section
             id="parcours"
+            tabIndex={-1}
             className="career-section"
             aria-labelledby="career-title"
           >
@@ -508,6 +486,7 @@ export default function Home() {
           </section>
           <section
             id="apropos"
+            tabIndex={-1}
             className="about-section wrap"
             aria-labelledby="about-title"
           >
@@ -590,6 +569,7 @@ export default function Home() {
           </section>
           <section
             id="contact"
+            tabIndex={-1}
             className="contact-section"
             aria-labelledby="contact-title"
           >
@@ -633,25 +613,10 @@ export default function Home() {
             <span className="brand-dot" />
           </a>
           <span>JORDAN LACROIX · 2026</span>
-          <details>
-            <summary>Informations du site</summary>
-            <div>
-              <p>
-                Site personnel de Jordan Lacroix. Les contenus décrivent mon
-                parcours et n’engagent pas mes employeurs. Les marques et logos
-                présentés appartiennent à leurs titulaires.
-              </p>
-              <p>
-                Contact :{' '}
-                <a href="mailto:contact@jordanlacroix.fr">
-                  contact@jordanlacroix.fr
-                </a>
-                . Aucun formulaire de collecte ni outil de mesure d’audience
-                n’est intégré au site.
-              </p>
-              <p>Hébergement : GitHub Pages, un service de GitHub, Inc.</p>
-            </div>
-          </details>
+          <nav className="footer-legal" aria-label="Informations légales">
+            <a href="/mentions-legales.html">Mentions légales</a>
+            <a href="/confidentialite.html">Confidentialité</a>
+          </nav>
           <a href="#contenu" className="hover-link">
             En haut <ArrowUpRight size={15} />
           </a>

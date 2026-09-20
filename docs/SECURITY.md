@@ -1,28 +1,39 @@
-# Sécurité de la version GitHub Pages
+# Sécurité
 
-La migration retire Vinext, React Server Components, Wrangler, le parseur `image-size`, les bindings Cloudflare et les fonctions d’authentification Sites. Le site déployé contient uniquement du HTML, CSS, JavaScript, des polices et des documents publics. Aucun serveur applicatif, secret, formulaire de collecte ou proxy d’images n’est nécessaire.
+## Périmètre
 
-## Mesures intégrées
+Le site est publié sur GitHub Pages à l’adresse https://jordanlacroix.fr/. Il contient du HTML pré-rendu, du CSS, du JavaScript et des ressources publiques. Il n’expose ni serveur applicatif, ni authentification, ni formulaire de collecte.
 
-- Dépendances exactes et fichier de verrouillage pnpm ; installations CI avec `--frozen-lockfile`.
-- Actions GitHub identifiées par leur SHA complet, droits de lecture pour la compilation, droits Pages/OIDC seulement pour le job de publication. Aucun déploiement de pull request ni `pull_request_target`.
-- Audit des dépendances au niveau élevé et propositions de mise à jour hebdomadaires via Dependabot.
-- CSP dans le HTML de production : scripts locaux uniquement, sans JavaScript en ligne ni `eval` ; objets et formulaires interdits, connexions et images locales. Les styles en ligne restent permis pour les interactions CSS.
-- Aucune ressource active tierce nécessaire à l’affichage, polices hébergées localement, absence de source maps dans la compilation.
-- Liens externes avec `noopener noreferrer`, pas de `dangerouslySetInnerHTML`, aucune donnée personnelle supplémentaire collectée.
-- Vérification automatique des fichiers publiés : index complet, ressources présentes, une seule page PDF, pas de `.env`, dépôt Git, sources de serveur ou artefacts de travail.
-- Anciennes versions stockées dans `.local-archive/`, exclu du dépôt et de la compilation. Le ZIP des sources n’embarque pas ce dossier.
+Le CV, le portrait, les textes et le dépôt GitHub sont publics. Les échanges adressés par email sont traités séparément du site. GitHub conserve des journaux techniques, dont les adresses IP des visiteurs, à des fins de sécurité : l’absence d’analytics ne signifie pas l’absence de traitements chez l’hébergeur.
 
-## Différences avec l’ancienne version
+## Mesures dans le dépôt
 
-GitHub Pages ne lance pas le proxy de sécurité de la version Sites. Les en-têtes personnalisés de ce proxy ne sont donc plus annoncés comme actifs. La CSP est déclarée par une balise `meta` ; les directives exclusivement HTTP, dont `frame-ancestors`, ne peuvent pas être imposées de cette manière. HTTPS et les en-têtes de la plateforme sont gérés par GitHub. Ne pas ajouter de pseudo-fichier `_headers` en supposant que Pages l’appliquera.
+- Versions exactes des dépendances, verrouillage pnpm et installation CI avec `--frozen-lockfile`.
+- Actions GitHub épinglées par SHA complet.
+- Compilation avec droits de lecture ; permissions Pages et OIDC limitées au job de publication.
+- Contrôles sur les pull requests ; déploiement réservé à `main`, sans `pull_request_target`.
+- Audit des dépendances dans la CI et propositions de mise à jour hebdomadaires via Dependabot.
+- CSP de production : scripts locaux, sans JavaScript en ligne ni `eval` ; objets et formulaires bloqués ; ressources et connexions locales.
+- Polices et images hébergées avec le site, sans source maps de production.
+- Liens ouvrant un nouvel onglet protégés par `noopener noreferrer`.
+- Vérification des liens locaux et des fichiers publiés ; exclusion des sources, secrets et artefacts de travail.
+- Le CV publié fait l’objet d’un contrôle de présence et de nombre de pages.
 
-Le CV, le portrait et les textes seront publics lorsque ce site sera activé sur GitHub Pages. La protection privée de Sites n’est pas transférée à GitHub Pages. Aucun changement du DNS ni publication sur GitHub n’a été effectué par la préparation locale.
+## Limites de GitHub Pages
 
-Les risques de dépendances doivent être réévalués au fil des mises à jour. Les contrôles du projet ne constituent pas un audit d’intrusion de GitHub, du DNS ou du poste utilisateur.
+La CSP est fournie par une balise HTML `meta`. Les directives qui exigent un en-tête HTTP, dont `frame-ancestors`, ne peuvent pas être imposées ainsi. GitHub Pages n’applique pas de fichier `_headers` personnalisé. HTTPS est géré par la plateforme.
 
-## Contrôle de livraison du 13 septembre 2026
+Les styles en ligne restent autorisés pour les interactions visuelles. Les protections des branches, les droits des comptes et la vérification de propriété du domaine doivent être contrôlés dans les réglages GitHub : leur activation ne peut pas être déduite de ce dépôt.
 
-L’audit pnpm ne signale aucune vulnérabilité connue dans le graphe de dépendances de cette version statique. Les types, l’analyse statique, les tests de mouvement, le pré-rendu et les contrôles des fichiers compilés passent. Dans le navigateur, le passage Data / BI / DPO et la pause fonctionnent ; aucune erreur ou alerte n’a été remontée lors de cette vérification. Le CV a été rendu et contrôlé sur une page A4. Le workflow GitHub sera exécuté pour la première fois après l’envoi du dépôt et l’activation de Pages ; il n’a pas encore été exécuté sur GitHub.
+## Maintenance et signalement
 
-[Sécurité des workflows GitHub](https://docs.github.com/en/actions/reference/security/secure-use) · [GitHub Pages](https://docs.github.com/en/pages)
+`pnpm check` vérifie le projet et les fichiers compilés. `pnpm audit` interroge les avis de sécurité disponibles au moment de son exécution ; un résultat sans alerte n’est pas une garantie d’absence de vulnérabilité.
+
+Signaler un problème à **contact@jordanlacroix.fr**, avec la page concernée et les étapes de reproduction. Ne pas publier de secret ni de donnée personnelle dans une issue publique.
+
+Les contrôles du projet ne constituent pas un audit d’intrusion de GitHub, du DNS, de la messagerie ou du poste utilisateur.
+
+## Références
+
+- [Sécurité des workflows GitHub](https://docs.github.com/en/actions/reference/security/secure-use)
+- [Traitement des adresses IP par GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
