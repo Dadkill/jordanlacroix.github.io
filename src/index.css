@@ -15,6 +15,7 @@
   --radius-lg: var(--radius);
 }
 :root {
+  --site-header-height: 110px;
   --background: #171d29;
   --foreground: #eef1f7;
   --primary: #6f9fff;
@@ -41,6 +42,43 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 35px;
+}
+/* Keep fragment destinations and focused controls below the floating header. */
+html:has(.site-header-shell) {
+  scroll-padding-top: calc(var(--site-header-height) + 16px);
+}
+.site-header-slot {
+  height: var(--site-header-height);
+}
+.site-header-shell {
+  position: relative;
+  z-index: 50;
+  background: #171d29f5;
+  backdrop-filter: blur(12px);
+}
+.site-header-shell.is-floating {
+  position: fixed;
+  inset: 0 0 auto;
+  box-shadow: 0 8px 24px #0002;
+  animation: header-arrive 240ms var(--ease-flow) both;
+}
+.portfolio[data-paused='true'] .site-header-shell.is-floating {
+  animation: none;
+}
+@keyframes header-arrive {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header-shell.is-floating {
+    animation: none;
+  }
 }
 body {
   margin: 0;
@@ -93,7 +131,7 @@ h3 {
 .site-header {
   display: flex;
   align-items: center;
-  height: 110px;
+  height: var(--site-header-height);
   border-bottom: 1px solid #ffffff20;
   gap: 30px;
 }
@@ -484,11 +522,13 @@ h2 {
   }
 }
 @media (max-width: 760px) {
+  :root {
+    --site-header-height: 85px;
+  }
   .wrap {
     width: calc(100% - 40px);
   }
   .site-header {
-    height: 85px;
     gap: 20px;
   }
   .brand {

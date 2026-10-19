@@ -163,7 +163,11 @@ export default function Home() {
       <a className="skip-link" href="#contenu">
         Aller au contenu
       </a>
-      <div className="portfolio" data-paused={paused || reducedMotion}>
+      <div
+        id="haut"
+        className="portfolio"
+        data-paused={paused || reducedMotion}
+      >
         <SiteHeader />
         <main id="contenu" tabIndex={-1}>
           <section className="hero wrap" aria-labelledby="hero-title">
@@ -608,7 +612,7 @@ export default function Home() {
           </section>
         </main>
         <footer className="wrap footer">
-          <a className="brand" href="#contenu" aria-label="Retour en haut">
+          <a className="brand" href="#haut" aria-label="Retour en haut">
             JL
             <span className="brand-dot" />
           </a>
@@ -617,7 +621,7 @@ export default function Home() {
             <a href="/mentions-legales.html">Mentions légales</a>
             <a href="/confidentialite.html">Confidentialité</a>
           </nav>
-          <a href="#contenu" className="hover-link">
+          <a href="#haut" className="hover-link">
             En haut <ArrowUpRight size={15} />
           </a>
         </footer>

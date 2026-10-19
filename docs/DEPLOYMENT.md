@@ -32,6 +32,26 @@ Le domaine est déclaré dans les réglages Pages du dépôt. Avec GitHub Action
 
 La vérification de propriété du domaine s’effectue dans les réglages Pages du compte, avec le TXT fourni par GitHub. Conserver ce TXT une fois la vérification effectuée. Éviter les entrées génériques `*`.
 
+## Réglages de sécurité du compte et du dépôt
+
+Ces réglages ne sont pas appliqués par le code ou par un commit.
+
+### Vérifier la propriété du domaine
+
+1. Dans les [réglages Pages du compte GitHub](https://github.com/settings/pages), ajouter `jordanlacroix.fr`.
+2. Copier exactement le nom et la valeur TXT générés par GitHub. Le nom attendu pour ce compte est `_github-pages-challenge-dadkill` dans la zone OVH `jordanlacroix.fr` ; la valeur doit provenir de GitHub.
+3. Ajouter uniquement ce TXT dans OVH, puis cliquer sur **Verify** dans GitHub une fois le record visible. Le conserver après validation.
+
+Le contrôle DNS vert dans les réglages Pages du dépôt et le certificat HTTPS ne remplacent pas cette vérification de propriété. Aucun enregistrement de messagerie ne doit être modifié.
+
+### Protéger main en conservant les commits directs
+
+Dans **Settings > Rules > Rulesets**, créer une règle de branche active ciblant `main`, avec **Restrict deletions** et **Block force pushes**. Ne pas ajouter de contournement systématique. Les commits ordinaires depuis GitHub Desktop restent possibles.
+
+Ce compromis préserve la publication actuelle : les contrôles bloquent un déploiement défectueux, mais pas l’arrivée du commit dans `main`. Pour bloquer aussi les fusions avant validation, il faut adopter un fonctionnement par branches et pull requests, avec le contrôle `build` obligatoire.
+
+Dans **Settings > Environments > github-pages**, limiter les branches de déploiement à `main` (branche sélectionnée, sans règle de tag). Le workflow applique déjà cette restriction ; le réglage de l’environnement ajoute une protection indépendante.
+
 ## Contrôles après publication
 
 Vérifier l’accueil en HTTPS, la redirection de www, les liens du menu, les pages légales, le téléchargement du CV et les métadonnées de partage. Les messageries et réseaux sociaux peuvent conserver un aperçu en cache après une publication.

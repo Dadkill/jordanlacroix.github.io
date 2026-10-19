@@ -12,8 +12,10 @@ Le CV, le portrait, les textes et le dépôt GitHub sont publics. Les échanges 
 - Actions GitHub épinglées par SHA complet.
 - Compilation avec droits de lecture ; permissions Pages et OIDC limitées au job de publication.
 - Contrôles sur les pull requests ; déploiement réservé à `main`, sans `pull_request_target`.
-- Audit des dépendances dans la CI et propositions de mise à jour hebdomadaires via Dependabot.
-- CSP de production : scripts locaux, sans JavaScript en ligne ni `eval` ; objets et formulaires bloqués ; ressources et connexions locales.
+- Audit des dépendances avant la compilation dans la CI. Il ne précède pas les scripts d’installation ; seul celui d’esbuild est autorisé.
+- Mises à jour hebdomadaires via Dependabot, regroupées par famille, avec un délai de sept jours pour les nouvelles versions. Ce délai ne s’applique pas aux mises à jour de sécurité.
+- CSP de production : refus par défaut, scripts et styles locaux sans code en ligne ni `eval`, objets et formulaires bloqués, ressources et connexions locales. Trusted Types est exigé pour les points d’injection de scripts dans les navigateurs compatibles.
+- Métadonnées HTML échappées et remplacements littéraux, couverts par des tests avec caractères spéciaux et tentatives d’injection.
 - Polices et images hébergées avec le site, sans source maps de production.
 - Liens ouvrant un nouvel onglet protégés par `noopener noreferrer`.
 - Vérification des liens locaux et des fichiers publiés ; exclusion des sources, secrets et artefacts de travail.
@@ -23,7 +25,9 @@ Le CV, le portrait, les textes et le dépôt GitHub sont publics. Les échanges 
 
 La CSP est fournie par une balise HTML `meta`. Les directives qui exigent un en-tête HTTP, dont `frame-ancestors`, ne peuvent pas être imposées ainsi. GitHub Pages n’applique pas de fichier `_headers` personnalisé. HTTPS est géré par la plateforme.
 
-Les styles en ligne restent autorisés pour les interactions visuelles. Les protections des branches, les droits des comptes et la vérification de propriété du domaine doivent être contrôlés dans les réglages GitHub : leur activation ne peut pas être déduite de ce dépôt.
+Les interactions visuelles modifient les propriétés CSS via le DOM, sans autoriser les blocs ni attributs de style en ligne. La directive `upgrade-insecure-requests` ne remplace pas HSTS : le site repose sur la redirection HTTPS de GitHub Pages. Aucun CDN supplémentaire n’est nécessaire pour le fonctionnement actuel.
+
+Les protections des branches, les droits des comptes et la vérification de propriété du domaine doivent être contrôlés dans les réglages GitHub : leur activation ne peut pas être déduite de ce dépôt. Le job de publication dépend du succès des contrôles, même sans protection de branche.
 
 ## Maintenance et signalement
 
