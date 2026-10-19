@@ -216,12 +216,15 @@ h3 {
 }
 .hero-stage {
   display: grid;
+  grid-template-areas: 'identity sculpture' 'controls controls' 'details details';
+  gap: 0;
   grid-template-columns: 1.15fr 1fr;
   position: relative;
   min-height: 540px;
   align-items: center;
 }
 .identity {
+  grid-area: identity;
   z-index: 2;
   position: relative;
   padding: 54px 0 40px;
@@ -269,6 +272,7 @@ h3 {
 }
 .hero-cta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 40px;
   margin-top: 30px;
@@ -306,6 +310,7 @@ h3 {
     sans-serif;
 }
 .sculpture-stage {
+  grid-area: sculpture;
   position: relative;
   height: 550px;
   width: calc(100% + 30px);
@@ -346,15 +351,11 @@ h3 {
 .motion-button:disabled {
   opacity: 0.8;
 }
-.discipline-tabs {
-  display: grid !important;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 70px !important;
-  padding: 28px 0 35px;
-  border-block: 1px solid #ffffff25;
-  align-items: center;
-}
+
 .discipline-list {
+  grid-area: controls;
+  margin-top: 24px;
+  margin-bottom: 26px;
   display: flex !important;
   width: 100% !important;
   height: auto !important;
@@ -397,6 +398,9 @@ h3 {
   border-bottom-color: currentColor;
 }
 .discipline-description {
+  grid-area: details;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #ffffff25;
   min-height: 68px;
   display: flex;
   align-items: center;
@@ -507,9 +511,7 @@ h2 {
   .sculpture-stage {
     height: 500px;
   }
-  .discipline-tabs {
-    gap: 35px !important;
-  }
+
   .discipline-tab {
     font-size: 27px !important;
     padding-inline: 14px !important;
@@ -550,7 +552,9 @@ h2 {
     padding-top: 26px;
   }
   .hero-stage {
-    display: block;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'identity' 'controls' 'sculpture' 'details';
     min-height: 0;
   }
   .identity {
@@ -580,17 +584,13 @@ h2 {
     margin-top: 26px;
   }
   .sculpture-stage {
-    height: 360px;
+    height: 250px;
     width: 100%;
     margin: 0;
     max-width: 440px;
     margin-inline: auto;
   }
-  .discipline-tabs {
-    grid-template-columns: 1fr;
-    gap: 21px !important;
-    padding: 24px 0;
-  }
+
   .discipline-tab {
     font-size: 28px !important;
     padding: 0 14px !important;
@@ -1405,11 +1405,7 @@ h2 {
   height: 65%;
   max-width: 360px;
 }
-.discipline-tabs {
-  grid-template-columns: 1fr !important;
-  gap: 26px !important;
-  padding-bottom: 37px;
-}
+
 .discipline-list {
   max-width: 640px;
 }
@@ -1530,10 +1526,6 @@ h2 {
   }
 }
 @media (max-width: 760px) {
-  .discipline-tabs {
-    gap: 23px !important;
-    padding-bottom: 30px;
-  }
   .discipline-points {
     grid-template-columns: 1fr;
     gap: 23px;
@@ -1841,5 +1833,50 @@ h2 {
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+  }
+}
+
+/* Clipboard feedback reserves space so contact links do not move. */
+.copy-email {
+  min-height: 102px;
+  padding-block: 12px 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+.copy-email-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.copy-email-button:hover {
+  background: #ffffff15;
+}
+.copy-email-status {
+  font-size: 14px;
+}
+@media (max-width: 760px) {
+  .hero-cta {
+    column-gap: 14px;
+    row-gap: 8px;
+  }
+  .hero-stage > .discipline-list {
+    margin-block: 32px 0;
+  }
+  .copy-email {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .copy-email-status {
+    min-height: 42px;
   }
 }

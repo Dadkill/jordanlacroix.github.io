@@ -17,6 +17,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import DataSculpture, { type Discipline } from './data-sculpture';
 import SiteHeader from './components/SiteHeader';
+import CopyEmailButton from './components/CopyEmailButton';
 
 const disciplines = [
   {
@@ -25,35 +26,35 @@ const disciplines = [
     short: 'Data',
     points: [
       {
-        title: 'Pilotage RM & BI',
-        text: 'Piloter le périmètre Data Revenue Management et BI chez ECG, en reliant les priorités de l’équipe aux besoins des métiers.',
+        title: 'Revenue Management & BI',
+        text: 'Relier les priorités de l’équipe data aux besoins des métiers.',
       },
       {
         title: 'Gestion des données',
-        text: 'Organiser les sujets data avec les équipes concernées, clarifier les besoins et faire avancer les projets dans leur contexte métier.',
+        text: 'Organiser les sujets et clarifier les besoins avec les équipes concernées.',
       },
       {
         title: 'Culture de la gouvernance',
-        text: 'Clarifier les responsabilités, les règles de gestion et les usages pour que les équipes partagent une compréhension commune des données.',
+        text: 'Partager des responsabilités et des règles de gestion claires autour des données.',
       },
     ],
   },
   {
     key: 'bi',
-    title: 'Business Intelligence',
+    title: 'Business Intelligence, l’aide à la décision',
     short: 'BI',
     points: [
       {
         title: 'Tableaux de bord',
-        text: 'Concevoir des analyses et des visualisations lisibles avec Tableau et GoogleSQL / BigQuery, à partir des besoins des équipes métier.',
+        text: 'Construire des analyses lisibles avec Tableau et GoogleSQL / BigQuery.',
       },
       {
         title: 'Usages & rationalisation',
-        text: 'Analyser les usages des contenus BI, identifier les redondances et faire évoluer les reportings selon les besoins des équipes.',
+        text: 'Comprendre quels contenus sont utilisés et quels besoins ils couvrent.',
       },
       {
         title: 'Lecture métier',
-        text: 'Présenter les résultats et expliquer la lecture des indicateurs pour aider les équipes à comprendre ce que montrent les analyses.',
+        text: 'Expliquer les indicateurs et donner du contexte aux résultats.',
       },
     ],
   },
@@ -64,15 +65,15 @@ const disciplines = [
     points: [
       {
         title: 'Audits des traitements',
-        text: 'Coordonner les audits des traitements de données personnelles avec les équipes juridiques et métiers, dans mon rôle de DPO Groupe.',
+        text: 'Examiner les traitements de données personnelles avec les équipes juridiques et métiers.',
       },
       {
         title: 'Registre & gouvernance',
-        text: 'Structurer le registre des traitements pour documenter les activités concernées et soutenir la gouvernance des données personnelles.',
+        text: 'Documenter les activités qui impliquent des données personnelles.',
       },
       {
         title: 'Veille européenne',
-        text: 'Suivre les évolutions réglementaires européennes et accompagner les métiers dans la prise en compte opérationnelle des enjeux RGPD.',
+        text: 'Suivre la réglementation européenne et ses implications pour les métiers.',
       },
     ],
   },
@@ -175,7 +176,14 @@ export default function Home() {
               <p>Data, Business Intelligence & protection des données</p>
               <span>Marseille, France</span>
             </div>
-            <div className="hero-stage">
+            <Tabs
+              value={discipline}
+              onValueChange={(value) => {
+                if (value === 'data' || value === 'bi' || value === 'privacy')
+                  setDiscipline(value);
+              }}
+              className="hero-stage"
+            >
               <div className="identity">
                 <h1 id="hero-title">
                   <span>JORDAN</span>
@@ -186,9 +194,11 @@ export default function Home() {
                 <div className="intro-line">
                   <span className="intro-rule" />
                   <p>
-                    Chez ECG, je pilote le périmètre Data RM & BI. En tant que
-                    DPO Groupe, j’accompagne les différents départements dans
-                    leur mise en conformité avec le RGPD.
+                    Chez European Camping Group (ECG), je pilote l’équipe data
+                    pour la gestion des revenus et l’aide à la décision.
+                    Également délégué à la protection des données (DPO),
+                    j’accompagne les départements dans leur conformité au
+                    règlement général sur la protection des données (RGPD).
                   </p>
                 </div>
                 <div className="hero-cta">
@@ -205,8 +215,30 @@ export default function Home() {
                   >
                     CV <Download size={16} aria-hidden="true" />
                   </a>
+                  <a
+                    className="cv-link hover-link"
+                    href="https://www.linkedin.com/in/jordan-lacroix/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn <ArrowUpRight size={16} aria-hidden="true" />
+                  </a>
                 </div>
               </div>
+              <TabsList
+                className="discipline-list"
+                aria-label="Mes domaines d’activité"
+              >
+                {disciplines.map((d) => (
+                  <TabsTrigger
+                    key={d.key}
+                    value={d.key}
+                    className="discipline-tab"
+                  >
+                    <span>{d.short}</span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
               <div className="sculpture-stage">
                 <DataSculpture
                   mode={discipline}
@@ -218,9 +250,11 @@ export default function Home() {
                   onClick={() => setPaused((v) => !v)}
                   disabled={reducedMotion}
                   aria-label={
-                    paused
-                      ? 'Reprendre les animations'
-                      : 'Mettre les animations en pause'
+                    reducedMotion
+                      ? 'Mouvement réduit selon vos préférences système'
+                      : paused
+                        ? 'Reprendre les animations'
+                        : 'Mettre les animations en pause'
                   }
                   aria-pressed={paused || reducedMotion}
                 >
@@ -238,29 +272,6 @@ export default function Home() {
                   </span>
                 </Button>
               </div>
-            </div>
-            <Tabs
-              value={discipline}
-              onValueChange={(value) => {
-                if (value === 'data' || value === 'bi' || value === 'privacy')
-                  setDiscipline(value);
-              }}
-              className="discipline-tabs"
-            >
-              <TabsList
-                className="discipline-list"
-                aria-label="Mes domaines d’activité"
-              >
-                {disciplines.map((d) => (
-                  <TabsTrigger
-                    key={d.key}
-                    value={d.key}
-                    className="discipline-tab"
-                  >
-                    <span>{d.short}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
               <div className="discipline-description">
                 {disciplines.map((d) => (
                   <TabsContent
@@ -299,38 +310,39 @@ export default function Home() {
             <div className="expertise-lines">
               <article className="reveal">
                 <div>
-                  <h3>Leadership data</h3>
+                  <h3>Prioriser les sujets data</h3>
                   <span className="skill-detail">Revenue Management / BI</span>
                 </div>
                 <p>
-                  Je pilote le périmètre data RM & BI. Mon rôle est de faire
-                  avancer les sujets avec les équipes et de garder les besoins
-                  métier au centre du travail.
+                  Lorsqu’un besoin métier arrive, je le clarifie avec les
+                  équipes concernées et le replace dans les priorités du
+                  périmètre Revenue Management & BI.
                 </p>
               </article>
               <article className="reveal">
                 <div>
-                  <h3>Analyse des usages BI</h3>
+                  <h3>Faire évoluer les reportings</h3>
                   <span className="skill-detail">
                     Tableau / GoogleSQL / BigQuery
                   </span>
                 </div>
                 <p>
-                  J’analyse les usages des contenus BI avec les équipes métier
-                  pour identifier les besoins, rationaliser les reportings et
-                  faire évoluer les analyses utiles à leur activité.
+                  J’examine les usages des contenus BI avec les métiers pour
+                  repérer les redondances et les analyses à faire évoluer. Ce
+                  travail permet de discuter des reportings à conserver, à
+                  adapter ou à rationaliser.
                 </p>
               </article>
               <article className="reveal">
                 <div>
-                  <h3>Protection des données</h3>
+                  <h3>Documenter les traitements</h3>
                   <span className="skill-detail">DPO Groupe / RGPD</span>
                 </div>
                 <p>
-                  J’accompagne les différents départements dans leur conformité
-                  au RGPD, avec les équipes juridiques et métiers : audits des
-                  traitements, structuration du registre et veille
-                  réglementaire.
+                  Avec les équipes juridiques et métiers, je coordonne les
+                  audits et structure le registre des traitements pour
+                  documenter les activités concernées. La veille réglementaire
+                  nourrit cet accompagnement.
                 </p>
               </article>
             </div>
@@ -597,6 +609,7 @@ export default function Home() {
                 </span>
                 <span className="sr-only">Écrire à Jordan Lacroix</span>
               </a>
+              <CopyEmailButton />
               <div className="contact-bottom reveal">
                 <span>Marseille & Aix-en-Provence</span>
                 <a

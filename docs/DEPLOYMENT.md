@@ -36,6 +36,14 @@ La vérification de propriété du domaine s’effectue dans les réglages Pages
 
 Ces réglages ne sont pas appliqués par le code ou par un commit.
 
+État vérifié le 20 octobre 2026 :
+
+- `jordanlacroix.fr` est vérifié dans le compte GitHub Dadkill. Le TXT `_github-pages-challenge-dadkill` est présent chez OVH et doit être conservé.
+- La [règle de protection de main](https://github.com/Dadkill/jordanlacroix.github.io/settings/rules/25439687) est active : suppression et force push bloqués, liste de contournement vide. Les push ordinaires restent autorisés.
+- L’environnement `github-pages` autorise uniquement la branche `main`, sans règle de tag.
+- Les enregistrements de messagerie OVH n’ont pas été modifiés.
+
+
 ### Vérifier la propriété du domaine
 
 1. Dans les [réglages Pages du compte GitHub](https://github.com/settings/pages), ajouter `jordanlacroix.fr`.
