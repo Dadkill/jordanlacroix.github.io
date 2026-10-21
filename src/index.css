@@ -58,26 +58,12 @@ html:has(.site-header-shell) {
 .site-header-shell.is-floating {
   position: fixed;
   inset: 0 0 auto;
-  box-shadow: 0 8px 24px #0002;
-  transform: translateY(-110%);
-  pointer-events: none;
-  transition: transform 220ms var(--ease-flow);
+  /* Native scrolling drives both the content and this offset, without easing. */
+  transform: translateY(var(--header-offset, 0px));
 }
-/* Reveal the opaque header in place; sliding it in would expose text underneath. */
-.site-header-shell.is-floating.is-visible,
 .site-header-shell.is-floating:has(:focus-visible),
 .site-header-shell.is-floating:has(.mobile-menu[open]) {
   transform: translateY(0);
-  pointer-events: auto;
-  transition: none;
-}
-.portfolio[data-paused='true'] .site-header-shell.is-floating {
-  transition: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .site-header-shell.is-floating {
-    transition: none;
-  }
 }
 
 body {

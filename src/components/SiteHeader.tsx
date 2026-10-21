@@ -10,67 +10,76 @@ const links = [
 
 export default function SiteHeader() {
   const slot = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState<'flow' | 'hidden' | 'visible'>(
-    'flow',
-  );
+  const shell = useRef<HTMLElement>(null);
+  const [floating, setFloating] = useState(false);
   const menu = useRef<HTMLDetailsElement>(null);
   const toggle = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const header = shell.current;
+    const placeholder = slot.current;
+    const mobileMenu = menu.current;
+    if (!header || !placeholder) return;
+
     let frame = 0;
-    let mode: 'flow' | 'hidden' | 'visible' = 'flow';
-    let previousY = window.scrollY;
-    let travel = 0;
+    let isFloating = false;
+    const scrollPosition = () =>
+      Math.max(
+        0,
+        Math.min(
+          window.scrollY,
+          Math.max(
+            0,
+            document.documentElement.scrollHeight - window.innerHeight,
+          ),
+        ),
+      );
+    let previousY = scrollPosition();
+    let height = placeholder.offsetHeight;
+    let offset = -Math.min(previousY, height);
+
     const update = () => {
       frame = 0;
-      if (!slot.current) return;
-      // Clamp overscroll so the bounce at either end is not a change of intent.
-      const maxY = Math.max(
-        0,
-        document.documentElement.scrollHeight - window.innerHeight,
-      );
-      const y = Math.max(0, Math.min(window.scrollY, maxY));
+      const y = scrollPosition();
       const delta = y - previousY;
       previousY = y;
-      if (delta !== 0) {
-        travel =
-          Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
-      }
-
-      let next = mode;
-      if (y === 0) {
-        next = 'flow';
-        travel = 0;
-      } else if (delta < 0) {
-        // Cover the content as soon as scrolling reverses, without an entry delay.
-        next = 'visible';
-      } else if (mode === 'flow') {
-        // The initial header scrolls naturally out of view before becoming fixed.
-        if (y >= slot.current.offsetHeight) next = 'hidden';
-      } else if (travel >= 10) {
-        next = 'hidden';
-      }
-      if (next !== mode) {
-        mode = next;
-        setPosition(next);
+      // One pixel of scroll moves the header by one pixel, in either direction.
+      // Until it is fully revealed, content and header travel together.
+      offset = Math.max(-height, Math.min(0, offset - delta));
+      offset = Math.max(offset, -y);
+      if (mobileMenu?.open || header.querySelector(':focus-visible'))
+        offset = 0;
+      header.style.setProperty('--header-offset', `${offset}px`);
+      if (isFloating !== y > 0) {
+        isFloating = y > 0;
+        setFloating(isFloating);
       }
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
     const onResize = () => {
-      // A viewport resize is not a deliberate upward or downward scroll.
-      previousY = window.scrollY;
-      travel = 0;
+      const nextHeight = placeholder.offsetHeight;
+      // Preserve the revealed proportion when changing between mobile and desktop.
+      offset = height > 0 ? (offset / height) * nextHeight : 0;
+      height = nextHeight;
+      previousY = scrollPosition();
       schedule();
     };
     update();
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', onResize);
+    header.addEventListener('focusin', schedule);
+    header.addEventListener('focusout', schedule);
+    mobileMenu?.addEventListener('toggle', schedule);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', onResize);
+      header.removeEventListener('focusin', schedule);
+      header.removeEventListener('focusout', schedule);
+      mobileMenu?.removeEventListener('toggle', schedule);
+      header.style.removeProperty('--header-offset');
     };
   }, []);
 
@@ -109,7 +118,8 @@ export default function SiteHeader() {
   return (
     <div className="site-header-slot" ref={slot}>
       <header
-        className={`site-header-shell${position !== 'flow' ? ' is-floating' : ''}${position === 'visible' ? ' is-visible' : ''}`}
+        ref={shell}
+        className={`site-header-shell${floating ? ' is-floating' : ''}`}
       >
         <div className="site-header wrap">
           <a
