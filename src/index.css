@@ -53,33 +53,33 @@ html:has(.site-header-shell) {
 .site-header-shell {
   position: relative;
   z-index: 50;
-  background: #171d29f5;
-  backdrop-filter: blur(12px);
+  background: var(--ink);
 }
 .site-header-shell.is-floating {
   position: fixed;
   inset: 0 0 auto;
   box-shadow: 0 8px 24px #0002;
-  animation: header-arrive 240ms var(--ease-flow) both;
+  transform: translateY(-110%);
+  pointer-events: none;
+  transition: transform 220ms var(--ease-flow);
+}
+/* Reveal the opaque header in place; sliding it in would expose text underneath. */
+.site-header-shell.is-floating.is-visible,
+.site-header-shell.is-floating:has(:focus-visible),
+.site-header-shell.is-floating:has(.mobile-menu[open]) {
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: none;
 }
 .portfolio[data-paused='true'] .site-header-shell.is-floating {
-  animation: none;
-}
-@keyframes header-arrive {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  transition: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .site-header-shell.is-floating {
-    animation: none;
+    transition: none;
   }
 }
+
 body {
   margin: 0;
   font-family: var(--font-body), Arial, sans-serif;

@@ -10,35 +10,67 @@ const links = [
 
 export default function SiteHeader() {
   const slot = useRef<HTMLDivElement>(null);
-  const [floating, setFloating] = useState(false);
+  const [position, setPosition] = useState<'flow' | 'hidden' | 'visible'>(
+    'flow',
+  );
   const menu = useRef<HTMLDetailsElement>(null);
   const toggle = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let frame = 0;
-    let isFloating = false;
+    let mode: 'flow' | 'hidden' | 'visible' = 'flow';
+    let previousY = window.scrollY;
+    let travel = 0;
     const update = () => {
       frame = 0;
       if (!slot.current) return;
-      const bounds = slot.current.getBoundingClientRect();
-      // Let the original header leave the screen, then leave a short gap.
-      // Keep the floating version until the top to avoid jumping on the way back.
-      const next = isFloating ? bounds.top < 0 : bounds.bottom <= -48;
-      if (next !== isFloating) {
-        isFloating = next;
-        setFloating(next);
+      // Clamp overscroll so the bounce at either end is not a change of intent.
+      const maxY = Math.max(
+        0,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
+      const y = Math.max(0, Math.min(window.scrollY, maxY));
+      const delta = y - previousY;
+      previousY = y;
+      if (delta !== 0) {
+        travel =
+          Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
+      }
+
+      let next = mode;
+      if (y === 0) {
+        next = 'flow';
+        travel = 0;
+      } else if (delta < 0) {
+        // Cover the content as soon as scrolling reverses, without an entry delay.
+        next = 'visible';
+      } else if (mode === 'flow') {
+        // The initial header scrolls naturally out of view before becoming fixed.
+        if (y >= slot.current.offsetHeight) next = 'hidden';
+      } else if (travel >= 10) {
+        next = 'hidden';
+      }
+      if (next !== mode) {
+        mode = next;
+        setPosition(next);
       }
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
+    const onResize = () => {
+      // A viewport resize is not a deliberate upward or downward scroll.
+      previousY = window.scrollY;
+      travel = 0;
+      schedule();
+    };
     update();
     window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
+    window.addEventListener('resize', onResize);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 
@@ -76,7 +108,9 @@ export default function SiteHeader() {
 
   return (
     <div className="site-header-slot" ref={slot}>
-      <header className={`site-header-shell${floating ? ' is-floating' : ''}`}>
+      <header
+        className={`site-header-shell${position !== 'flow' ? ' is-floating' : ''}${position === 'visible' ? ' is-visible' : ''}`}
+      >
         <div className="site-header wrap">
           <a
             className="brand"
