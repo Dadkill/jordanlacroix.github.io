@@ -5,82 +5,12 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from 'react';
-import {
-  ArrowUpRight,
-  ArrowDown,
-  Download,
-  Pause,
-  Play,
-  ArrowRight,
-} from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import DataSculpture, { type Discipline } from './data-sculpture';
+import { ArrowUpRight, ArrowDown, Download, ArrowRight } from 'lucide-react';
+import DisciplineExplorer from './components/DisciplineExplorer';
 import SiteHeader from './components/SiteHeader';
 import CopyEmailButton from './components/CopyEmailButton';
 
-const disciplines = [
-  {
-    key: 'data',
-    title: 'Data management',
-    short: 'Data',
-    points: [
-      {
-        title: 'Revenue Management & BI',
-        text: 'Relier les priorités de l’équipe data aux besoins des métiers.',
-      },
-      {
-        title: 'Gestion des données',
-        text: 'Organiser les sujets et clarifier les besoins avec les équipes concernées.',
-      },
-      {
-        title: 'Culture de la gouvernance',
-        text: 'Partager des responsabilités et des règles de gestion claires autour des données.',
-      },
-    ],
-  },
-  {
-    key: 'bi',
-    title: 'Business Intelligence, l’aide à la décision',
-    short: 'BI',
-    points: [
-      {
-        title: 'Tableaux de bord',
-        text: 'Construire des analyses lisibles avec Tableau et GoogleSQL / BigQuery.',
-      },
-      {
-        title: 'Usages & rationalisation',
-        text: 'Comprendre quels contenus sont utilisés et quels besoins ils couvrent.',
-      },
-      {
-        title: 'Lecture métier',
-        text: 'Expliquer les indicateurs et donner du contexte aux résultats.',
-      },
-    ],
-  },
-  {
-    key: 'privacy',
-    title: 'Protection des données',
-    short: 'DPO',
-    points: [
-      {
-        title: 'Audits des traitements',
-        text: 'Examiner les traitements de données personnelles avec les équipes juridiques et métiers.',
-      },
-      {
-        title: 'Registre & gouvernance',
-        text: 'Documenter les activités qui impliquent des données personnelles.',
-      },
-      {
-        title: 'Veille européenne',
-        text: 'Suivre la réglementation européenne et ses implications pour les métiers.',
-      },
-    ],
-  },
-];
-
 export default function Home() {
-  const [discipline, setDiscipline] = useState<Discipline>('data');
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
@@ -176,13 +106,10 @@ export default function Home() {
               <p>Data, Business Intelligence & protection des données</p>
               <span>Marseille, France</span>
             </div>
-            <Tabs
-              value={discipline}
-              onValueChange={(value) => {
-                if (value === 'data' || value === 'bi' || value === 'privacy')
-                  setDiscipline(value);
-              }}
-              className="hero-stage"
+            <DisciplineExplorer
+              paused={paused}
+              reducedMotion={reducedMotion}
+              onTogglePause={() => setPaused((value) => !value)}
             >
               <div className="identity">
                 <h1 id="hero-title">
@@ -194,11 +121,9 @@ export default function Home() {
                 <div className="intro-line">
                   <span className="intro-rule" />
                   <p>
-                    Chez European Camping Group (ECG), je pilote l’équipe data
-                    pour la gestion des revenus et l’aide à la décision.
-                    Également délégué à la protection des données (DPO),
-                    j’accompagne les départements dans leur conformité au
-                    règlement général sur la protection des données (RGPD).
+                    Chez European Camping Group, je pilote l’équipe data pour la
+                    gestion des revenus et l’aide à la décision. Je suis aussi
+                    le délégué à la protection des données du groupe.
                   </p>
                 </div>
                 <div className="hero-cta">
@@ -225,73 +150,7 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-              <TabsList
-                className="discipline-list"
-                aria-label="Mes domaines d’activité"
-              >
-                {disciplines.map((d) => (
-                  <TabsTrigger
-                    key={d.key}
-                    value={d.key}
-                    className="discipline-tab"
-                  >
-                    <span>{d.short}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-              <div className="sculpture-stage">
-                <DataSculpture
-                  mode={discipline}
-                  paused={paused || reducedMotion}
-                />
-                <Button
-                  className="motion-button"
-                  variant="ghost"
-                  onClick={() => setPaused((v) => !v)}
-                  disabled={reducedMotion}
-                  aria-label={
-                    reducedMotion
-                      ? 'Mouvement réduit selon vos préférences système'
-                      : paused
-                        ? 'Reprendre les animations'
-                        : 'Mettre les animations en pause'
-                  }
-                  aria-pressed={paused || reducedMotion}
-                >
-                  {paused || reducedMotion ? (
-                    <Play size={14} />
-                  ) : (
-                    <Pause size={14} />
-                  )}
-                  <span>
-                    {reducedMotion
-                      ? 'Mouvement réduit'
-                      : paused
-                        ? 'Reprendre'
-                        : 'Pause'}
-                  </span>
-                </Button>
-              </div>
-              <div className="discipline-description">
-                {disciplines.map((d) => (
-                  <TabsContent
-                    key={d.key}
-                    value={d.key}
-                    className="discipline-panel"
-                  >
-                    <h2 className="discipline-panel-title">{d.title}</h2>
-                    <ul className="discipline-points">
-                      {d.points.map((point) => (
-                        <li key={point.title}>
-                          <h3>{point.title}</h3>
-                          <p>{point.text}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  </TabsContent>
-                ))}
-              </div>
-            </Tabs>
+            </DisciplineExplorer>
           </section>
           <section
             className="expertise-section wrap"
@@ -516,7 +375,7 @@ export default function Home() {
               <figure className="portrait-card reveal">
                 <div className="photo-frame">
                   <img
-                    src="/jordan-lacroix.png"
+                    src="/jordan-lacroix.webp"
                     alt="Jordan Lacroix"
                     width="400"
                     height="400"

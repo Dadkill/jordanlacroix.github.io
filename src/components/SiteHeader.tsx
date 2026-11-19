@@ -84,28 +84,49 @@ export default function SiteHeader() {
   }, []);
 
   useEffect(() => {
+    const details = menu.current;
+    if (!details) return;
+
     const desktop = matchMedia('(min-width: 761px)');
     const closeOnDesktop = () => {
-      if (desktop.matches && menu.current) menu.current.open = false;
+      if (desktop.matches) details.open = false;
     };
-
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (
-        event.key === 'Escape' &&
-        menu.current?.open &&
-        event.target instanceof Node &&
-        menu.current.contains(event.target)
-      ) {
+      if (event.key === 'Escape' && details.open) {
         event.preventDefault();
-        menu.current.open = false;
         toggle.current?.focus();
+        details.open = false;
       }
     };
+    const closeOnFocusExit = (event: FocusEvent) => {
+      if (
+        details.open &&
+        !(
+          event.relatedTarget instanceof Node &&
+          details.contains(event.relatedTarget)
+        )
+      ) {
+        details.open = false;
+      }
+    };
+    const closeOnOutsidePress = (event: PointerEvent) => {
+      if (
+        details.open &&
+        event.target instanceof Node &&
+        !details.contains(event.target)
+      ) {
+        details.open = false;
+      }
+    };
+    details.addEventListener('focusout', closeOnFocusExit);
+    details.addEventListener('keydown', closeOnEscape);
     desktop.addEventListener('change', closeOnDesktop);
-    document.addEventListener('keydown', closeOnEscape);
+    document.addEventListener('pointerdown', closeOnOutsidePress);
     return () => {
+      details.removeEventListener('focusout', closeOnFocusExit);
+      details.removeEventListener('keydown', closeOnEscape);
       desktop.removeEventListener('change', closeOnDesktop);
-      document.removeEventListener('keydown', closeOnEscape);
+      document.removeEventListener('pointerdown', closeOnOutsidePress);
     };
   }, []);
 

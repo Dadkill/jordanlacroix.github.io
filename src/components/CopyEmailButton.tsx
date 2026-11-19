@@ -1,14 +1,9 @@
-import { useState, useSyncExternalStore } from 'react';
+import { useState } from 'react';
 import { Copy } from 'lucide-react';
-
-const subscribe = () => () => {};
+import { useHydrated } from '../lib/useHydrated';
 
 export default function CopyEmailButton() {
-  const ready = useSyncExternalStore(
-    subscribe,
-    () => true,
-    () => false,
-  );
+  const ready = useHydrated();
   const [status, setStatus] = useState('');
 
   async function copyAddress() {

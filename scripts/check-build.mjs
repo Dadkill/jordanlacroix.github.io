@@ -13,6 +13,19 @@ assert(
 );
 assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
 assert(!html.includes('APP_HTML') && !html.includes('PRODUCTION_CSP'));
+// The three descriptions must remain usable when the application cannot hydrate.
+const disciplines = [
+  ...html.matchAll(/<details name="disciplines"[^>]*>([\s\S]*?)<\/details>/g),
+];
+assert.equal(disciplines.length, 3, 'Three native discipline summaries');
+for (const [, detail] of disciplines) {
+  assert(detail.includes('<summary>'));
+  assert.equal((detail.match(/<li>/g) ?? []).length, 3);
+}
+assert(
+  !html.includes('aria-label="Mettre les animations en pause"'),
+  'No inactive pause button before hydration',
+);
 function checkPolicy(document, name) {
   assert(
     document.includes('content="' + escapeHtml(productionCsp) + '"'),

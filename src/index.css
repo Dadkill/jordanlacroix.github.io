@@ -540,7 +540,9 @@ h2 {
   .hero-stage {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'identity' 'controls' 'sculpture' 'details';
+    grid-template-areas: 'identity' 'controls' 'details';
+    --symbol-width: clamp(96px, 28vw, 148px);
+    --symbol-height: calc(var(--symbol-width) + 44px);
     min-height: 0;
   }
   .identity {
@@ -570,11 +572,30 @@ h2 {
     margin-top: 26px;
   }
   .sculpture-stage {
-    height: 250px;
-    width: 100%;
+    grid-area: details;
+    place-self: start end;
+    z-index: 1;
+    width: var(--symbol-width);
+    height: var(--symbol-height);
     margin: 0;
-    max-width: 440px;
-    margin-inline: auto;
+  }
+  .sculpture-stage .data-canvas {
+    height: var(--symbol-width);
+  }
+  .sculpture-stage .sculpture-fallback {
+    bottom: 44px;
+  }
+  .sculpture-stage .motion-button {
+    inset: auto 0 0;
+    width: 100%;
+  }
+  .sculpture-stage .motion-button:disabled span {
+    min-width: 0;
+    white-space: normal;
+    line-height: 1.15;
+  }
+  .hero-stage:has(.discipline-fallback) .sculpture-stage {
+    display: none;
   }
 
   .discipline-tab {
@@ -1399,14 +1420,37 @@ h2 {
   min-height: 218px;
   width: 100%;
 }
+.discipline-fallback {
+  grid-column: 1 / -1;
+  grid-row: controls-start / details-end;
+  padding-block: 24px;
+}
+.discipline-fallback details {
+  border-block-end: 1px solid var(--border);
+}
+.discipline-fallback summary {
+  padding: 14px 4px;
+  color: var(--accent);
+  cursor: pointer;
+}
+.discipline-fallback h2 {
+  display: inline;
+  font: 600 1.2rem/1.4 var(--heading);
+  letter-spacing: -0.02em;
+}
+.discipline-fallback .discipline-points {
+  margin-block: 8px 24px;
+}
+.discipline-fallback .discipline-points li {
+  animation: none;
+}
 .discipline-panel-title {
   font:
-    12px/1.6 var(--font-body),
-    sans-serif !important;
-  letter-spacing: 0.01em !important;
-  font-weight: 600;
+    600 14px/1.6 var(--font-body),
+    sans-serif;
+  letter-spacing: 0.01em;
   color: #a6b4cf;
-  margin: 0 0 24px !important;
+  margin: 0 0 24px;
   animation: panel-arrive 0.95s var(--ease-flow) 0.12s both;
 }
 .discipline-points {
@@ -1516,7 +1560,15 @@ h2 {
     gap: 23px;
   }
   .discipline-panel-title {
-    margin-bottom: 21px !important;
+    display: grid;
+    align-content: center;
+    min-height: var(--symbol-height);
+    padding-inline-end: calc(var(--symbol-width) + 16px);
+    margin-bottom: 16px;
+    font: 650 clamp(21px, 5.5vw, 32px) / 1.18 var(--heading);
+    letter-spacing: -0.035em;
+    color: var(--paper);
+    overflow-wrap: anywhere;
   }
   .discipline-description {
     min-height: 0;
@@ -1854,7 +1906,7 @@ h2 {
     row-gap: 8px;
   }
   .hero-stage > .discipline-list {
-    margin-block: 32px 0;
+    margin-block: 28px 6px;
   }
   .copy-email {
     align-items: flex-start;
@@ -1863,5 +1915,29 @@ h2 {
   }
   .copy-email-status {
     min-height: 42px;
+  }
+}
+
+@media (max-width: 360px) {
+  .identity {
+    padding-top: 32px;
+  }
+  .intro-line {
+    margin-top: 24px;
+  }
+  .intro-line p {
+    line-height: 1.7;
+  }
+  .hero-cta,
+  .hero-cta .round-link {
+    column-gap: 8px;
+  }
+  .hero-cta .circle-arrow {
+    width: 44px;
+    height: 44px;
+  }
+  .hero-cta .cv-link {
+    column-gap: 5px;
+    padding-inline: 4px;
   }
 }

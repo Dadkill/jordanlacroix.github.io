@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { escapeHtml, withContent, withPageMetadata } from './html-template.mjs';
 
-test('metadata cannot break out of title or quoted attributes', async () => {
+void test('metadata stays inside titles and quoted attributes', async () => {
   const template = await readFile(
     new URL('../index.html', import.meta.url),
     'utf8',
@@ -18,7 +18,9 @@ test('metadata cannot break out of title or quoted attributes', async () => {
   assert(!html.includes('<script>alert(1)</script>'));
   assert(!html.includes(' onload="'));
   assert(html.includes('&lt;/title&gt;&lt;script&gt;alert(1)&lt;/script&gt;'));
-  assert(html.includes('&quot; onload=&quot;alert(2) &amp; $&amp; $1 $&#39; $`'));
+  assert(
+    html.includes('&quot; onload=&quot;alert(2) &amp; $&amp; $1 $&#39; $`'),
+  );
   assert.equal((html.match(/<title>/g) ?? []).length, 1);
   assert.equal((html.match(/<meta name="description"/g) ?? []).length, 1);
   assert(html.includes('href="https://jordanlacroix.fr/confidentialite.html"'));
@@ -31,7 +33,7 @@ test('metadata cannot break out of title or quoted attributes', async () => {
   );
 });
 
-test('rendered content keeps dollar tokens intact', () => {
+void test('rendered content keeps dollar tokens intact', () => {
   const content = "<p>$& $1 $' $`</p>";
   const result = withContent(
     '<!-- PRODUCTION_CSP --><main><!-- APP_HTML --></main>',

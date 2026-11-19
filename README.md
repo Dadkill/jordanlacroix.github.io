@@ -17,7 +17,7 @@ Mon site personnel présente mon activité, mon parcours et mon CV. J’y partag
 
 ## Design & réalisation
 
-Une interface sombre, les typographies Syne et Manrope, un portrait en noir et blanc et des animations de particules qui représentent les trois domaines du portfolio. La mise en page s’adapte au mobile et les animations tiennent compte des préférences de réduction du mouvement.
+Une interface sombre, les typographies Syne et Manrope, un portrait en couleur et des animations de particules qui représentent les trois domaines du portfolio. La mise en page s’adapte au mobile et les animations tiennent compte des préférences de réduction du mouvement.
 
 Le site est développé en **React et TypeScript avec Vite**. Son contenu est pré-rendu en HTML à la compilation, puis servi sous forme de fichiers statiques par **GitHub Pages**. Les polices et les ressources visuelles sont hébergées avec le site.
 
